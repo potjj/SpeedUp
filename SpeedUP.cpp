@@ -234,11 +234,51 @@ int InitializeWinsock() {
 	printf("Initialized.");
 	return 1;
 }
+SOCKET SocketConnect(char*strServerIDAddress, u_short port) {
+	SOCKET s;
+	if ((s = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
+		printf("Could not create socket:%d", WSAGetLastError());
+		exit(-1);
+	}
+	printf("Socket created.\n");
+	struct sockaddr_in server;
+	server.sin_addr.s_addr = inet_addr(strServerIDAddress);
+	server.sin_family = AF_INET;
+	server.sin_port = htons(port);
 
+	if (connect(s, (struct sockaddr *)&server, sizeof(server)) < 0) {
+		puts("connect error");
+		return 1;
+	}
+	puts("Connected");
+	return s;
+}
+
+int main() {
+	InitializeWinsock();
+	request_t req;
+	req.SP = 'S';
+	req.giatri = 0.25;
+	req.SoCoreN = 2;
+	req.SolanTang = 2;
+
+	char* SVRIPAddress = "172.17.14.54";
+	u_short port = 54321;
+
+	SOCKET svrsocket = SocketConnect(SVRIPAddress, port);
+	send(svrsocket, (char*)&req, sizeof(req), 0);
+	reply_t rep;
+	recv(svrsocket, (char*)&rep, sizeof(req), 0);
+	printf("Req:SP = %c, giatri=%0.2f,Socore = %3d , SoLanTang=%3d\n",req.SP,req.giatri,req.SoCoreN,req.SolanTang);
+	printf("Reply: S= %0.2lf, P= %0.2lf, Speedup = %4.2lf, SoCoretang= %3d, NewSpeed= %3d\n", rep.S, rep.P, rep.Speedup, rep.SoCoreTang, rep.newSpeedup);
+	closesocket(svrsocket);
+	WSACleanup();
+}
 
 
 
 */
+
 
 
 
