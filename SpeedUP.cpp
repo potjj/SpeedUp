@@ -200,4 +200,46 @@ void main(int argc, char *argv[]) {
 		NumThread = 4;
 	TinhSpeedupMangMT(pdata, SoPhanTuMang, NumThread);
 	OpenExcel(argv[3]);
+
 }
+//------------------------------------------------SOCKET------------------------------------
+
+/*
+typedef struct _request_t {
+	char SP;
+	double giatri;
+	int SoCoreN;
+	int SolanTang;
+
+}request_t, *prequest_t;
+
+typedef struct _reply_t {
+	double S;
+	double P;
+	double Speedup;
+	int SoCoreTang;
+	double newSpeedup;
+
+} reply_t, *preply_t;
+
+int InitializeWinsock() {
+	WSADATA wsa;
+	printf("\nInitializing Winsock...");
+	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) {
+		printf("Failed. ERROR CODE: %d", WSAGetLastError());
+		exit(-1);
+		return 0 ;
+
+	}
+	printf("Initialized.");
+	return 1;
+}
+
+
+
+
+*/
+
+
+
+
